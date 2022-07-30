@@ -1,19 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-interface hookReturns {
+interface HookReturns {
   count: number;
   isVisible: boolean;
-  onVisibilityChange: (callback: (isVisible: boolean | void) => void) => void;
+  onVisibilityChange: (callback: (isVisible: boolean) => void) => void;
 }
 
-let useDocumentVisibility: () => hookReturns = () => {
-  const isActivePageRef = useRef<boolean>(true);
-  const [isActive, setIsActive] = useState<boolean>(true);
-  const [activeCount, setActiveCount] = useState<number>(0);
+const useDocumentVisibility: () => HookReturns = () => {
+  const [isActive, setIsActive] = useState(true);
+  const [activeCount, setActiveCount] = useState(0);
 
   useEffect(() => {
     function updateActive() {
-      isActivePageRef.current = !document.hidden;
       setIsActive(!document.hidden);
       if (document.hidden) {
         setActiveCount((prevState) => prevState + 1);
@@ -27,13 +25,12 @@ let useDocumentVisibility: () => hookReturns = () => {
     return () => document.removeEventListener('visibilitychange', updateActive);
   }, []);
 
-  const addVisibleListener = (callback: (isVisible: boolean | void) => void) => {
-    // eslint-disable-next-line no-restricted-globals
-    let tempFunction = function () {
-      callback(isActivePageRef.current);
+  const addVisibleListener = (callback: (isVisible: boolean) => void) => {
+    const callbackDecorator = function () {
+      callback(!document.hidden);
     };
 
-    document.addEventListener('visibilitychange', tempFunction);
+    document.addEventListener('visibilitychange', callbackDecorator);
   };
 
   return {

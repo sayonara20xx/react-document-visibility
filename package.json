@@ -1,7 +1,7 @@
 {
   "name": "@yuyushka/react-document-visibility",
   "type": "module",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "in educational purposes, do not use",
   "source": "src/DocumentVisibilityHook.tsx",
   "main": "dist/main.umd.js",
@@ -18,6 +18,7 @@
   "author": "yuyushka",
   "license": "ISC",
   "devDependencies": {
+    "typescript": "^4.7.4",
     "@types/react": "^18.0.15",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
@@ -30,14 +31,8 @@
     "eslint-plugin-unicorn": "^43.0.2",
     "microbundle": "^0.15.0"
   },
-  "dependencies": {
-    "typescript": "^4.7.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
-    "typescript": "^4.7.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.2.0"
   }
 }
