@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 type SubscriberCallback = (callback: (isVisible: boolean) => void) => void;
-type decoratedCallback = () => void;
+type DecoratedCallback = () => void;
 
 interface HookReturns {
   count: number;
@@ -12,7 +12,7 @@ interface HookReturns {
 const useDocumentVisibility: () => HookReturns = () => {
   const [isActive, setIsActive] = useState(true);
   const [activeCount, setActiveCount] = useState(0);
-  const subscribers = useRef<decoratedCallback[]>([]);
+  const subscribers = useRef<DecoratedCallback[]>([]);
 
   const callSubscribers = () => {
     subscribers.current.forEach((callback) => {
