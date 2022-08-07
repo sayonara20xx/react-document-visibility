@@ -1,22 +1,16 @@
 import { useEffect, useState, useRef } from 'react';
 
-type SubscriberCallback = (callback: (isVisible: boolean) => void) => void;
-type DecoratedCallback = () => void;
+type InternalCallback = (isVisible: boolean) => void;
+type SubscriberCallback = (callback: InternalCallback) => void;
 
-interface HookReturns {
-  count: number;
-  isVisible: boolean;
-  onVisibilityChange: SubscriberCallback;
-}
-
-const useDocumentVisibility: () => HookReturns = () => {
+const useDocumentVisibility = () => {
   const [isActive, setIsActive] = useState(true);
   const [activeCount, setActiveCount] = useState(0);
-  const subscribers = useRef<DecoratedCallback[]>([]);
+  const subscribers = useRef<InternalCallback[]>([]);
 
   const callSubscribers = () => {
     subscribers.current.forEach((callback) => {
-      callback();
+      callback(!document.hidden);
     });
   };
 
@@ -34,19 +28,15 @@ const useDocumentVisibility: () => HookReturns = () => {
     return () => document.removeEventListener('visibilitychange', updateActive);
   }, []);
 
-  const addVisibleListener = (callback: (isVisible: boolean) => void) => {
-    const callbackDecorator = function () {
-      callback(!document.hidden);
-    };
-
-    subscribers.current = [...subscribers.current, callbackDecorator];
+  const addVisibleListener : SubscriberCallback = (callback) => {
+    subscribers.current = [...subscribers.current, callback];
   };
 
   return {
     count: activeCount,
-    isVisible: isActive,
+    visible: isActive,
     onVisibilityChange: addVisibleListener,
   };
 };
 
-export default useDocumentVisibility;
+export { useDocumentVisibility };
