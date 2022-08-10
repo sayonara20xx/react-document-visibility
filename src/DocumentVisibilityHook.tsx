@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 type InternalCallback = (isVisible: boolean) => void;
 type SubscriberCallback = (callback: InternalCallback) => void;
 
-const useDocumentVisibility = () => {
+export const useDocumentVisibility = () => {
   const [isActive, setIsActive] = useState(true);
   const [activeCount, setActiveCount] = useState(0);
   const subscribers = useRef<InternalCallback[]>([]);
@@ -38,5 +38,3 @@ const useDocumentVisibility = () => {
     onVisibilityChange: addVisibleListener,
   };
 };
-
-export { useDocumentVisibility };

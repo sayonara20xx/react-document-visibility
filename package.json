@@ -1,7 +1,7 @@
 {
   "name": "@yuyushka/react-document-visibility",
   "type": "module",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "in educational purposes, do not use",
   "source": "src/DocumentVisibilityHook.tsx",
   "main": "dist/main.umd.js",
