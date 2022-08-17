@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+import {useEffect, useState, useRef, useCallback} from 'react';
 
 type InternalCallback = (isVisible: boolean) => void;
 type SubscriberCallback = (callback: InternalCallback) => void;
 
 export const useDocumentVisibility = () => {
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
   const [activeCount, setActiveCount] = useState(0);
   const subscribers = useRef<InternalCallback[]>([]);
 
@@ -28,9 +28,9 @@ export const useDocumentVisibility = () => {
     return () => document.removeEventListener('visibilitychange', updateActive);
   }, []);
 
-  const addVisibleListener : SubscriberCallback = (callback) => {
+  const addVisibleListener : SubscriberCallback = useCallback((callback) => {
     subscribers.current = [...subscribers.current, callback];
-  };
+  }, []);
 
   return {
     count: activeCount,
